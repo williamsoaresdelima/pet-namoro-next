@@ -3,7 +3,7 @@ import FeedItem from './FeedItem/FeedItem'
 import Link from 'next/link'
 
 import IFeed from "./IFeed"
-import * as S from "./style"
+import { Container } from "./style"
 
 function Feed({ data } : { data : IFeed[] }) {
 
@@ -13,7 +13,7 @@ function Feed({ data } : { data : IFeed[] }) {
   });
   
   return (
-    <S.Container>
+    <div className='container'>
       {result.map((item, index) => {
         if (item.feedImageURL !== null) {
           return (
@@ -24,7 +24,8 @@ function Feed({ data } : { data : IFeed[] }) {
         } 
       })
       }
-    </S.Container>
+      <style jsx>{Container}</style>
+    </div>
   )
 }
 
