@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import React from 'react'
 
-import * as S from './style'
 import { IPagination } from "./IPagination";
 
 export default function Pagination({ data } : { data : IPagination}) {
+  
 
   const count = Array.from(
     { length: Math.ceil(data.pageCount) },
@@ -12,11 +12,25 @@ export default function Pagination({ data } : { data : IPagination}) {
   )
   
   return (
-    <S.Container>
+    <div className="container">
       {
         count.map((page) => {
+          <style jsx>{`
+            .page-number {
+              border-radius: 100%;
+              font-size: 18px;
+              padding: 8px 12px;
+              margin: 8px;
+              font-weight: 700;
+              background-color: ${page === data.currentPage ? 'lightblue' : 'trasparent'};
+            }
+            
+            .page-number:hover {
+              background-color: ${page === data.currentPage ? 'lightblue' : 'lightgray'};
+            }
+          `}</style>
           if (page === data.currentPage) {
-            return <S.PageNumber active={true} key={page}>{page}</S.PageNumber>;
+            return <span className='page-number' key={page}>{page}</span>;
           }
           return (
             <Link
@@ -24,12 +38,21 @@ export default function Pagination({ data } : { data : IPagination}) {
               key={page}
               title={`Ir para a página ${page}`}
             >
-              <S.PageNumber active={false}>{page}</S.PageNumber>
+              <span className='page-number'>{page}</span>
             </Link>
           );
         })
       }  
-    </S.Container>
+      <style jsx>{`
+        .container {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          margin-top: 20px;
+        }
+      `}</style>
+    </div>
   )
 }
 

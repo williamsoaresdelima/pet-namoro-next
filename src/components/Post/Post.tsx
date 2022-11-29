@@ -2,36 +2,37 @@ import React from 'react'
 
 import Avatar from '../Avatar/Avatar'
 import IPost from './IPost'
-import * as S from './style'
+import { Styles } from './style'
 
 function Post({data} : {data : IPost}) {
   // const image = data.image.childImageSharp.gatsbyImageData;
   const date = new Date(data.date).toLocaleDateString('pt-BR').replaceAll('/', '-')
 
   return (
-    <S.PostContainer>
-      <S.ImgContainer>
+    <div className='container'>
+      <div className='img-container'>
         <img
           // src={{ ...image }}
           alt={data.title}
         />
-      </S.ImgContainer>
-      <S.Content>
-        <S.ContentHeader>
+      </div>
+      <div className='content'>
+        <div className='content-header'>
           <Avatar src={data.authorImage} size={'36px'}/>
           <h1>
             {data.postAuthor}
           </h1>
-          <S.Date>
+          <span className='date'>
             {date}
-          </S.Date>
-        </S.ContentHeader>
-        <S.ContentBody>
+          </span>
+        </div>
+        <div className='content-body'>
           <div dangerouslySetInnerHTML={{__html: data.html}}>
           </div>
-        </S.ContentBody>
-      </S.Content>
-    </S.PostContainer>
+        </div>
+      </div>
+      <style jsx>{Styles}</style>
+    </div>
   )
 }
 

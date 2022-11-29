@@ -1,4 +1,4 @@
-import { IGatsbyImageData } from "gatsby-plugin-image"
+
 
 export default interface IPost {
   authorImage: string,
@@ -6,9 +6,5 @@ export default interface IPost {
   postAuthor: string,
   date: string,
   html: string,
-  image: {
-    childImageSharp: {
-      gatsbyImageData: IGatsbyImageData
-    }
-  }
+  image: string
 }
