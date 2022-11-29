@@ -16,6 +16,7 @@
 /build
 
 # misc
+/src_gatsby
 .DS_Store
 *.pem
 
