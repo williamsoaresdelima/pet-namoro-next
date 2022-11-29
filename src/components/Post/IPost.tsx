@@ -1,5 +1,3 @@
-
-
 export default interface IPost {
   authorImage: string,
   title: string,
