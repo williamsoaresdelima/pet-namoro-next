@@ -5,7 +5,7 @@ import React from 'react'
 import Link from 'next/link';
 // import 'react-toastify/dist/ReactToastify.css';
 
-import { Schema } from './schema';
+// import { Schema } from './schema';
 import { IContact, IContactForm } from './IContactForm'
 import InputField from './InputField/InputField'
 import { ContactContainer } from './style'
