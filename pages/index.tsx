@@ -1,7 +1,11 @@
-import axios from "axios";
-import { GetServerSideProps } from "next";
+import { GetStaticProps,  } from "next";
+import { apolloClient, gql } from '../src/apolloClient'
+import { IPagination } from "../src/components/Pagination/IPagination";
 
 import ProfileHeader from "../src/components/ProfileHeader/ProfileHeader";
+import Feed from "../src/components/Feed/Feed";
+import IFeed from "../src/components/Feed/IFeed";
+import Pagination from "../src/components/Pagination/Pagination";
 
 const data = {
   imageURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKW_TpB7R9Wd5VV8f1Ckp-JhR8_G_OA-MB-Q&usqp=CAU',
@@ -12,26 +16,79 @@ const data = {
   ocupation: 'test'
 }
 
-const token = "eb4402f8fa7a31cf2f2f3e05e0513957a9956e0382486dea845845f5bcdd9be7cdc426c210b347c93e39d51f6877432cf7be76875588d6b04a7165fd1b2d210a00675c23347605d8b1ef867f4e9f9956a72c9c5a50363fd4e425cf90b864242396fc85c04d11757756ab15073863fe3ac02b2ae740531b208c8caa097f340d93"
+type HomeProps = {
+  posts: IFeed[],
+  pagination: IPagination
+}
 
-// export default function Home (props : any) {
-export default function Home () {
+export default function Home ({ posts, pagination }: HomeProps ) {
   return (
   <>
-    <ProfileHeader {...data}/>
+    <ProfileHeader { ...data }/>
+    <Feed data={ posts }/>
+    <Pagination  data={ pagination }/>
   </>
   )
 }
 
-// axios.defaults.headers.get['Authorization'] = `Bearer ${token}`;
-// export const getServerSideProps : GetServerSideProps = async () => {
-//   const data = await axios.get("http://localhost:1337/api/posts")
+export const getStaticProps: GetStaticProps<any> = async () => {
+  const result = await apolloClient.query({
+    query: gql`
+      query {
+        posts(pagination: { pageSize: 9, page: 1 }) {
+          meta {
+            pagination {
+              page
+              pageCount
+            }
+          }
+          data {
+            attributes {
+              title
+              slug
+              image {
+                data {
+                  attributes {
+                    url
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    `,
+  });
 
-//   const posts = await data.data
+  const posts: any["items"] = result.data.posts.data.map(
+    ({
+      attributes: {
+        title,
+        slug,
+        image: {
+          data: {
+            attributes: { url },
+          },
+        },
+      },
+    }: any) => ({
+      feedImageURL: `https://webservices.jumpingcrab.com${url}`,
+      feedLink: `/posts/${slug}`,
+      feedTitle: title,
+    })
+  );
 
-//   return {
-//     props: {
-//       posts
-//     }
-//   }
-// }
+  const { page: currentPage, pageCount } = result.data.posts.meta.pagination;
+    console.log(currentPage, pageCount)
+  return {
+    props: {
+      posts,
+      pagination: {
+        currentPage,
+        pageCount,
+        hasNextPage: pageCount > currentPage,
+        hasPreviousPage: false,
+      },
+    },
+  };
+};

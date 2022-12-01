@@ -1,5 +1,5 @@
 import React from 'react'
-import css from 'styled-jsx/css';
+import Image from 'next/image'
 
 import IFeedItem from './IFeedItem'
 
@@ -7,7 +7,15 @@ function FeedItem({ imageURL, title } : IFeedItem) {
   return (
     <div className='container'>
       <div className='img-container'>
-        <img src={imageURL} alt={title} />
+        <Image src={imageURL} alt={title} width="300" height="200"
+          style={{
+            width: "calc(100% - 16px)",
+            height: "100%",
+            objectFit: "cover",
+            aspectRatio: "1",
+            borderRadius: "4px",
+          }}
+        />
       </div>
       <div className='title-container'>
         <span/>
@@ -18,23 +26,10 @@ function FeedItem({ imageURL, title } : IFeedItem) {
           height: 80%;
         }
 
-        .container .img-container {
+        .img-container {
+          width: 100%;
           height: 100%;
           padding: 8px;
-          object-fit: cover;
-        }
-
-        .img-container div {
-          min-height: 160px;
-          width: 100%;
-          height: inherit;
-        }
-
-        .img-container div img {
-            min-height: 100%;
-            width: 100%;
-            object-fit: cover;
-            border-radius: 4px;
         }
         
         .title-container {

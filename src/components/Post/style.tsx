@@ -24,7 +24,9 @@ export const Styles = css`
 
   .img-container img {
     border-radius: 4px 0 0 4px;
+    max-height: 500px;
     width: 100%;
+    object-fit: cover;
   }
   
   .content {

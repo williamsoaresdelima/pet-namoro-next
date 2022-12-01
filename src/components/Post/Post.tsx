@@ -9,10 +9,10 @@ function Post({data} : {data : IPost}) {
   const date = new Date(data.date).toLocaleDateString('pt-BR').replaceAll('/', '-')
 
   return (
-    <div className='container'>
+    <div className='post-container'>
       <div className='img-container'>
         <img
-          // src={{ ...image }}
+          src={data.image}
           alt={data.title}
         />
       </div>

@@ -15,22 +15,8 @@ export default function Pagination({ data } : { data : IPagination}) {
     <div className="container">
       {
         count.map((page) => {
-          <style jsx>{`
-            .page-number {
-              border-radius: 100%;
-              font-size: 18px;
-              padding: 8px 12px;
-              margin: 8px;
-              font-weight: 700;
-              background-color: ${page === data.currentPage ? 'lightblue' : 'trasparent'};
-            }
-            
-            .page-number:hover {
-              background-color: ${page === data.currentPage ? 'lightblue' : 'lightgray'};
-            }
-          `}</style>
           if (page === data.currentPage) {
-            return <span className='page-number' key={page}>{page}</span>;
+            return <span className='page-number active' key={page}>{page}</span>;
           }
           return (
             <Link
@@ -42,14 +28,39 @@ export default function Pagination({ data } : { data : IPagination}) {
             </Link>
           );
         })
-      }  
+      }
       <style jsx>{`
+        span {
+          color: var(--W12)
+        }
+        
         .container {
           display: flex;
           flex-direction: row;
           justify-content: center;
           align-items: center;
           margin-top: 20px;
+        }
+
+        .page-number {
+          border-radius: 100%;
+          font-size: 18px;
+          padding: 8px 12px;
+          margin: 8px;
+          font-weight: 700;
+          background-color: trasparent;
+        }
+        
+        .page-number:hover {
+          background-color: lightgray;
+        }
+
+        .active {
+          background-color: lightblue;
+        }
+
+        .active:hover {
+          background-color: lightblue;
         }
       `}</style>
     </div>
