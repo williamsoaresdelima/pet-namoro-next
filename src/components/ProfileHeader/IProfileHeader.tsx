@@ -1,5 +1,5 @@
 interface IProfileHeader {
-  imageURL: string,
+  image: string,
   title: string,
   name: string,
   breed: string,

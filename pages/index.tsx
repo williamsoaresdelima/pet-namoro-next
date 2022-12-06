@@ -6,9 +6,10 @@ import ProfileHeader from "../src/components/ProfileHeader/ProfileHeader";
 import Feed from "../src/components/Feed/Feed";
 import IFeed from "../src/components/Feed/IFeed";
 import Pagination from "../src/components/Pagination/Pagination";
+import IProfileHeader from "../src/components/ProfileHeader/IProfileHeader";
 
 const data = {
-  imageURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKW_TpB7R9Wd5VV8f1Ckp-JhR8_G_OA-MB-Q&usqp=CAU',
+  image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKW_TpB7R9Wd5VV8f1Ckp-JhR8_G_OA-MB-Q&usqp=CAU',
   title: 'test',
   name: 'test',
   breed: 'test',
@@ -18,10 +19,12 @@ const data = {
 
 type HomeProps = {
   posts: IFeed[],
-  pagination: IPagination
+  pagination: IPagination,
+  userInfo: IProfileHeader
 }
 
-export default function Home ({ posts, pagination }: HomeProps ) {
+export default function Home ({ posts, pagination, userInfo }: HomeProps ) {
+  console.log(userInfo)
   return (
   <>
     <ProfileHeader { ...data }/>
@@ -32,6 +35,63 @@ export default function Home ({ posts, pagination }: HomeProps ) {
 }
 
 export const getStaticProps: GetStaticProps<any> = async () => {
+  const userInfo = await getUserInfo();
+  console.log(userInfo)
+  const {posts, pagination} = await getPosts();
+  return {
+    props: {
+      posts,
+      pagination,
+    }
+  };
+};
+
+
+
+const getUserInfo = async ()  => {
+  const result = await apolloClient.query({
+    query: gql`
+      query {
+        petUser {
+          data{
+            attributes {
+              name
+              title
+              breed
+              description
+              ocupation
+              image {
+                data {
+                  attributes {
+                    url
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    `
+  });
+  const 
+    { name,
+      title,
+      breed,
+      description,
+      ocupation,
+      image:
+        { data:
+          { attributes:
+            { url: imageUrl }
+          }
+        }
+      }
+       = await result.data.petUser.data.attributes
+
+   return {name, title, breed, description, ocupation, image: `https://webservices.jumpingcrab.com/${imageUrl}` };
+};
+
+const getPosts = async () => {
   const result = await apolloClient.query({
     query: gql`
       query {
@@ -77,18 +137,14 @@ export const getStaticProps: GetStaticProps<any> = async () => {
       feedTitle: title,
     })
   );
-
   const { page: currentPage, pageCount } = result.data.posts.meta.pagination;
-    console.log(currentPage, pageCount)
-  return {
-    props: {
-      posts,
-      pagination: {
-        currentPage,
-        pageCount,
-        hasNextPage: pageCount > currentPage,
-        hasPreviousPage: false,
-      },
-    },
+
+  const pagination = {
+    currentPage,
+    pageCount,
+    hasNextPage: pageCount > currentPage,
+    hasPreviousPage: false,
   };
+
+  return {posts, pagination};
 };

@@ -3,13 +3,13 @@ import React from 'react';
 import IProfileHeader from './IProfileHeader';
 import { Styles } from './style'
 
-function ProfileHeader({ imageURL, title, name, breed, description, ocupation } : IProfileHeader) {
+function ProfileHeader({ image, title, name, breed, description, ocupation } : IProfileHeader) {
   return (
     <> 
       <div className='container'>
         <div className="img-container">
           <img
-            src={imageURL}
+            src={image}
             alt="Perfil"
           />
         </div>
