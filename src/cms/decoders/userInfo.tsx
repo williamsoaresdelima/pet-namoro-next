@@ -1,19 +1,27 @@
 import { getImageUrl } from "../../apolloClient";
 
-import IProfileHeader from "../../components/ProfileHeader/IProfileHeader";
+export type UserInfoData = {
+  name: string;
+  title: string;
+  description: string;
+  ocupation: string;
+  breed: string;
+  image: string;
+};
 
-export function decodeUserInfo(data: any): IProfileHeader {
+export function decodeUserInfo(data: any): UserInfoData {
   const {
     name = "",
     title = "",
     description = "",
     ocupation = "",
     breed = "",
-  } = data?.userInfo.data.attributes ?? {};
+  } = data?.petUser.data.attributes ?? {};
+  console.log(data.petUser.data.attributes.image.data)
 
   const image =
-    data && data.userInfo.data.attributes.image
-      ? getImageUrl(data.userInfo.data.attributes.image.data.attributes.url)
+    data && data.petUser.data.attributes.image.data
+      ? getImageUrl(data.petUser.data.attributes.image.data.attributes)
       : "/image.jpeg";
 
   return {

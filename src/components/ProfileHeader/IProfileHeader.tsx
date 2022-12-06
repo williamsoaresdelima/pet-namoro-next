@@ -4,7 +4,8 @@ interface IProfileHeader {
   name: string,
   breed: string,
   description: string,
-  ocupation: string
+  ocupation: string,
+  publishCount: number,
 }
 
 export default IProfileHeader;

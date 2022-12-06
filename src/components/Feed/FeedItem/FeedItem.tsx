@@ -8,6 +8,7 @@ function FeedItem({ imageURL, title } : IFeedItem) {
     <div className='container'>
       <div className='img-container'>
         <Image src={imageURL} alt={title} width="300" height="200"
+          priority={true}
           style={{
             width: "calc(100% - 16px)",
             height: "100%",
