@@ -17,11 +17,10 @@ export function decodeUserInfo(data: any): UserInfoData {
     ocupation = "",
     breed = "",
   } = data?.petUser.data.attributes ?? {};
-  console.log(data.petUser.data.attributes.image.data)
 
   const image =
     data && data.petUser.data.attributes.image.data
-      ? getImageUrl(data.petUser.data.attributes.image.data.attributes)
+      ? getImageUrl(data.petUser.data.attributes.image.data.attributes.url)
       : "/image.jpeg";
 
   return {
