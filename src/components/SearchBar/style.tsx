@@ -32,4 +32,7 @@ export const SearchInput = css`
     cursor: pointer;
   }
 
+  .search-result {
+    position: relative;
+  }
 `;

@@ -10,6 +10,7 @@ import IProfileHeader from "../src/components/ProfileHeader/IProfileHeader";
 import { decodeUserInfo } from "../src/cms/decoders/userInfo";
 import { queryUserInfo } from "../src/cms/querys/userInfo";
 import { getPostPage } from "../src/cms/functions/getPostPage";
+import Head from '../src/components/Head/Head'
 
 type HomeProps = {
   posts: IFeed[],
@@ -20,6 +21,7 @@ type HomeProps = {
 export default function Home ({ posts, pagination, userInfo }: HomeProps ) {
   return (
   <>
+    <Head title="Namoro-Pet | Home"/>
     <ProfileHeader { ...userInfo }/>
     <Feed data={ posts }/>
     <Pagination  data={ pagination }/>

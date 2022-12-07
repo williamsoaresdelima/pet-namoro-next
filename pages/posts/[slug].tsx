@@ -1,9 +1,15 @@
 import type { GetStaticPaths, GetStaticProps } from "next";
-import { apolloClient, gql } from "../../src/apolloClient";
+import { apolloClient } from "../../src/apolloClient";
+
 import Post from "../../src/components/Post/Post";
 import IPost from "../../src/components/Post/IPost";
-import { remark } from "remark";
-import html from "remark-html";
+import Head from "../../src/components/Head/Head";
+import { queryPostsBySlug } from "../../src/cms/querys/postsBySlug";
+import { decodePosts } from "../../src/cms/decoders/decodePosts";
+import { queryPostsSlugs } from "../../src/cms/querys/postsSlug";
+import { processMarkdown } from "../../src/processMarkdown";
+import Feed from "../../src/components/Feed/Feed";
+import { useLatestPosts } from "../../src/cms/hooks/useLastestPosts";
 
 export type PostPageProps = IPost;
 
@@ -12,107 +18,56 @@ export type PostPageQuery = {
 };
 
 export default function PostPage(props: PostPageProps) {
-  return <Post data={ props } />;
-}
+  const { posts, loading } = useLatestPosts();
+  return (
+    <>
+      <Head title={`Namoro-Pet | ${props.title}`}/>
+      <Post data={ props } />
+      <h1>Ultimos Posts</h1>
+      <div className="latest-posts">{!loading && <Feed data={posts} />}</div>
+      <style jsx>{`
+        h1 {
+          margin-top: 32px;
+          margin-bottom: -16px;
+        }
+      `}</style>
+    </>
+  );
+};
 
 export const getStaticProps: GetStaticProps<
   PostPageProps,
   PostPageQuery
 > = async ({ params }) => {
-  const result = await apolloClient.query({
-    query: gql`
-      query {
-        posts(filters: {
-          slug: {
-            eq: "${params?.slug ?? ``}"
-          }
-        }) {
-          data {
-            attributes {
-              title
-              author
-              slug
-              content
-              publishDate
-              avatar {
-                data {
-                  attributes {
-                    url
-                  }
-                }
-              }
-              image {
-                data {
-                  attributes {
-                    url
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    `,
+  const { data } = await apolloClient.query({
+    query: queryPostsBySlug,
+    variables: {
+      slug: params?.slug,
+    },
   });
 
   const {
-    attributes: {
-      title: title,
-      author: authorUsername,
-      content,
-      publishDate,
-      image: {
-        data: {
-          attributes: { url: imageUrl },
-        },
-      },
-      avatar: {
-        data: {
-          attributes: { url: avatarUrl },
-        },
-      },
-    },
-  } = result.data.posts.data[0];
+    posts: [post],
+  } = decodePosts(data);
+  const content = await processMarkdown(post.html);
 
   return {
     props: {
-      image: `https://webservices.jumpingcrab.com${imageUrl}`,
-      authorImage: `https://webservices.jumpingcrab.com${avatarUrl}`,
-      title,
-      date: publishDate,
-      postAuthor: authorUsername,
-      html: (await remark().use(html).process(content)).toString(),
+      ...post,
+      content,
     },
   };
 };
 
 export const getStaticPaths: GetStaticPaths<PostPageQuery> = async () => {
-  const result = await apolloClient.query({
-    query: gql`
-      query {
-        posts {
-          data {
-            attributes {
-              slug
-            }
-          }
-        }
-      }
-    `,
+  const { data } = await apolloClient.query({
+    query: queryPostsSlugs,
   });
 
-  const {
-    data: {
-      posts: { data: postsSlugs },
-    },
-  } = result;
-
-  const slugs: string[] = postsSlugs.map(
-    ({ attributes: { slug } }: any) => slug
-  );
-
+  const { posts } = decodePosts(data);
+  const paths = posts.map(({ slug }) => ({ params: { slug } }));
   return {
-    paths: slugs.map((slug) => ({ params: { slug } })),
+    paths,
     fallback: false,
   };
 };

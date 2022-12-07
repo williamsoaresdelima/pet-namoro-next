@@ -5,17 +5,15 @@ import SearchBar from '../components/SearchBar/SearchBar'
 import ToolBar from '../components/ToolBar/ToolBar';
 
 function Header() {
-  
   function returnValue(value: string) {
     console.log(value);
-  }
-  
+  };
   return (
     <>
       <div className='header-container'>
         <div className="header-content">
           <h1>Namoro-Pet</h1>
-          <SearchBar callBackFunction={returnValue}/>
+          <SearchBar/>
           <div className="tool-bar">
               <ToolBar callBackFunction={returnValue}/>
           </div>
@@ -24,7 +22,7 @@ function Header() {
       <div className='top-header-container'>
         <div className="header-content">
           <h1>Namoro-Pet</h1>
-          <SearchBar callBackFunction={returnValue}/>
+          <SearchBar/>
         </div>
       </div>
       <div className='buttom-header-container'>

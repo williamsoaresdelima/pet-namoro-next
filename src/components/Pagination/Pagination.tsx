@@ -4,8 +4,6 @@ import React from 'react'
 import { IPagination } from "./IPagination";
 
 export default function Pagination({ data } : { data : IPagination}) {
-  
-
   const count = Array.from(
     { length: Math.ceil(data.pageCount) },
     (_, index) => index + 1
