@@ -1,13 +1,13 @@
 import React from 'react'
 import { FormikProps, useFormik } from 'formik';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import axios from 'axios';
 import Link from 'next/link';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { Schema } from './schema';
 import { IContact, IContactForm } from './IContactForm'
-import InputField from './InputField/InputField'
+import InputField from '../InputField/InputField'
 import { ContactContainer } from './style'
 
 function ContactForm({ setLoading } : IContact) {
@@ -53,11 +53,11 @@ function ContactForm({ setLoading } : IContact) {
     id: name,
     ...formik.getFieldProps(name),
   });
-  
+
   return (
     <div className='container'>
       <span className='title'>Entrar em contato</span>
-      <form>
+      <form onSubmit={formik.handleSubmit}>
         <div className='row'>
           <InputField
             type='text'
@@ -97,14 +97,13 @@ function ContactForm({ setLoading } : IContact) {
           />
         </div>
         <div className='row'>
-          <button type='submit'>Enviar</button>
+          <button type='submit' disabled={!formik.isValid}>Enviar</button>
         </div>
       </form>
       <div className='links'>
       <Link href="/">Home</Link>
         <Link href="/">Contato</Link>
       </div>
-      <ToastContainer/>
       <style jsx>{ContactContainer}</style>
     </div>
   )

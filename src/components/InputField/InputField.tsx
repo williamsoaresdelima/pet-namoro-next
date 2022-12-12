@@ -1,10 +1,10 @@
 import React from 'react'
-import { isEmpty } from 'lodash';
 
 import IInputField from './IInputField'
 
-function InputField({type, label, placeholder, getPropsField, id, formik}: IInputField) {
-  const hasError = formik.errors[id];
+function InputField({type, label, placeholder, getPropsField, id, formik, disabled = false}: IInputField) {
+  const typeOf = `${id}`
+  const hasError = formik.errors[typeOf];
   const isTextArea = type === 'textarea'
 
   return (
@@ -15,25 +15,27 @@ function InputField({type, label, placeholder, getPropsField, id, formik}: IInpu
         ? (
           <textarea
           placeholder={placeholder}
-          {...getPropsField(id)}
-          id={id}
+          {...getPropsField(typeOf)}
+          id={typeOf}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          value={formik.values[id]}
+          value={formik.values[typeOf]}
+          disabled={disabled}
           />
         ): (
           <input
             type={type} placeholder={placeholder}
-            {...getPropsField(id)}
+            {...getPropsField(typeOf)}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            value={formik.values[id]}
-            id={id}
-            />
-            )}
+            value={formik.values[typeOf]}
+            disabled={disabled}
+            id={typeOf}
+          />
+          )}
         {hasError ? (
           <span>
-           {formik.errors[id]}
+           {`${hasError}`}
           </span>
           ): null}
       </div>

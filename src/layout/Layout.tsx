@@ -12,9 +12,9 @@ function Layout({children}: any) {
     <div>
       {isLoading ? <LoadingSpinner/> : null}
       <Header/>
-      <main className='layout'>
-        {children}
-      </main>
+        <main className='layout'>
+          {children}
+        </main>
       <Footer setLoading={setIsLoading}/>
       <style jsx>
         {LayoutContainer}
