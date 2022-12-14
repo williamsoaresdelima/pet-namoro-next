@@ -2,8 +2,9 @@ import React from "react";
 import { FormikProps, useFormik } from "formik";
 import { toast } from "react-toastify";
 import useAxios from "axios-hooks";
-import router from "next/router";
 import { isEmpty } from "lodash";
+import { signIn } from 'next-auth/react'
+
 
 import InputField from "../../../components/InputField/InputField";
 import ISignupForm from "./ISignupForm";
@@ -42,7 +43,10 @@ const SignUpForm = ({setLoading}: {setLoading: (data: boolean) => void}) => {
             color: "#f9f9f9",
           },
         });
-        router.push("/login");
+        signIn("credentials", {
+          username: values.email,
+          password: values.password
+        })
       } else {
         toast("Falha ao se registra. Tente novamente mais tarde.", {
           position: "bottom-right",

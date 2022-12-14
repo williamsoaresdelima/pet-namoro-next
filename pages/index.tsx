@@ -1,6 +1,7 @@
-import { GetStaticProps,  } from "next";
+import { GetStaticProps, } from "next";
 import { apolloClient } from '../src/apolloClient'
 import { IPagination } from "../src/components/Pagination/IPagination";
+import { useSession } from 'next-auth/react'
 
 import ProfileHeader from "../src/components/ProfileHeader/ProfileHeader";
 import Feed from "../src/components/Feed/Feed";
@@ -18,19 +19,20 @@ type HomeProps = {
   userInfo: IProfileHeader
 };
 
-export default function Home ({ posts, pagination, userInfo }: HomeProps ) {
+export default function Home({ posts, pagination, userInfo }: HomeProps) {
+  const { data, status } = useSession();
   return (
-  <>
-    <Head title="Namoro-Pet | Home"/>
-    <ProfileHeader { ...userInfo }/>
-    <Feed data={ posts }/>
-    <Pagination  data={ pagination }/>
-  </>
+    <>
+      <Head title="Namoro-Pet | Home" />
+      <ProfileHeader {...userInfo} />
+      <Feed data={posts} />
+      <Pagination data={pagination} />
+    </>
   );
 };
 
 export const getStaticProps: GetStaticProps<any> = async () => {
-  const {posts, pagination} = await getFeedProps();
+  const { posts, pagination } = await getFeedProps();
   const userInfo = await getUserInfoProps(pagination.total);
   return {
     props: {
@@ -58,7 +60,7 @@ async function getFeedProps(): Promise<{
 
   const results = await getPostPage(1);
   const posts = results.posts.map(
-    ({title, slug, image: url}: any) => ({
+    ({ title, slug, image: url }: any) => ({
       feedImageURL: url,
       feedLink: `/posts/${slug}`,
       feedTitle: title,
