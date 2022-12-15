@@ -16,6 +16,9 @@ const SignUpForm = ({setLoading}: {setLoading: (data: boolean) => void}) => {
     {
       url: "/api/signup",
       method: "POST",
+      headers: {
+        'Access-Control-Allow-Credentials': true 
+      }
     },
     {
       manual: true,
