@@ -2,11 +2,6 @@ import * as userRepository from './userRepository'
 import bcrypt from 'bcrypt'
 import { Session } from 'next-auth';
 
-interface UserSession {
-    userId: string,
-    email: string,
-}
-
 export async function googleLogin(
     email: string,
     user: Partial<userRepository.User>

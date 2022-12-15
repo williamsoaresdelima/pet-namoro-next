@@ -23,7 +23,9 @@ function ToolBar({callBackFunction, isMobile = false}: IToolBar) {
               </div>
             </Link>
             {status === "authenticated"
-              ? <MdLogout size="16px" onClick={() => signOut()}/>
+              ? <Link href={"/"}>
+                  <MdLogout size="16px" onClick={() => signOut()}/>
+                </Link>
               : <Link href={"/api/auth/signin"}>
                   <MdLogin size="16px"/>
                 </Link>
@@ -41,7 +43,9 @@ function ToolBar({callBackFunction, isMobile = false}: IToolBar) {
               </div>
             </Link>
             {status === "authenticated"
-              ? <MdLogout size="30px" onClick={() => signOut()}/>
+              ? <Link href={"/"}>
+                  <MdLogout size="30px" onClick={() => signOut()}/>
+                </Link>
               : <Link href={"/api/auth/signin"}>
                   <MdLogin size="30px"/>
                 </Link>
