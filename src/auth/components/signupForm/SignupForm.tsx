@@ -28,6 +28,7 @@ const SignUpForm = ({setLoading}: {setLoading: (data: boolean) => void}) => {
       lastname: '',
       password: '',
       email: '',
+      provider: 'credentials'
     },
     validationSchema: Schema,
     onSubmit: async (values, { resetForm }) => {

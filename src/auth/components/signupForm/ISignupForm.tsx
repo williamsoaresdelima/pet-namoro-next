@@ -3,6 +3,7 @@ interface ISignupForm {
 	lastname: string | undefined,
 	password: string | undefined,
 	email: string | undefined,
+	provider: string,
 }
 
 export default ISignupForm

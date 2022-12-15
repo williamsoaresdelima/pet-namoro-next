@@ -26,7 +26,6 @@ const SignUpForm = ({setLoading}: {setLoading: (data: boolean) => void}) => {
     },
     validationSchema: Schema,
     onSubmit: (values, { resetForm }) => {
-      console.log(values)
       execute({
         data: values,
       });
