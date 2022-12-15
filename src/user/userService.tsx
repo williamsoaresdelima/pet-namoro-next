@@ -6,6 +6,34 @@ interface UserSession {
     email: string,
 }
 
+export async function googleLogin(
+    email: string,
+    user: Partial<userRepository.User>
+  ) {
+    const maybeUser = await userRepository.findByEmail(email, {
+      select: {
+        id: true,
+      },
+    });
+    if (maybeUser === null) {
+      const results = await userRepository.create(user);
+      if (results.user !== undefined) {
+        return {
+          success: true,
+        };
+      }
+    } else {
+      return {
+        success: true,
+      };
+    }
+  
+    return {
+      success: false,
+    };
+  }
+  
+
 export async function login(email: string, password: string) {
     const maybeUser = await userRepository.findByEmail(email, {
         select: {
