@@ -1,9 +1,13 @@
-import type { User, Prisma } from "@prisma/client";
-import { SafeParseReturnType } from "zod";
 
 import { prismaClient } from "../prismaClient";
-import { credentialsUserSchema, CredentialsUserSchema } from "./schemas/credentialsUserSchema";
+import type { User, Prisma } from "@prisma/client";
+import type { SafeParseReturnType } from "zod";
+import {
+  credentialsUserSchema,
+  CredentialsUserSchema,
+} from "./schemas/credentialsUserSchema";
 import { googleUserSchema, GoogleUserSchema } from "./schemas/googleUserSchema";
+
 export type { User } from "@prisma/client";
 
 export function findById(
