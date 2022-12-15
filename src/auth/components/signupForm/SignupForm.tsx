@@ -16,9 +16,6 @@ const SignUpForm = ({setLoading}: {setLoading: (data: boolean) => void}) => {
     {
       url: "/api/signup",
       method: "POST",
-      headers: {
-        'Access-Control-Allow-Credentials': true 
-      }
     },
     {
       manual: true,
@@ -47,7 +44,7 @@ const SignUpForm = ({setLoading}: {setLoading: (data: boolean) => void}) => {
             color: "#f9f9f9",
           },
         });
-        signIn("credentials", {
+        signIn("Credentials", {
           username: values.email,
           password: values.password
         })
