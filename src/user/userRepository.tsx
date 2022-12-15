@@ -1,7 +1,9 @@
 import type { User, Prisma } from "@prisma/client";
-import { prismaClient } from "../prismaClient";
-import { createUserSchema } from "./schemas/createUserSchema";
+import { SafeParseReturnType } from "zod";
 
+import { prismaClient } from "../prismaClient";
+import { credentialsUserSchema, CredentialsUserSchema } from "./schemas/credentialsUserSchema";
+import { googleUserSchema, GoogleUserSchema } from "./schemas/googleUserSchema";
 export type { User } from "@prisma/client";
 
 export function findById(
@@ -29,10 +31,27 @@ export function findByEmail(
 }
 
 export async function create(
-  user: User,
+  user?: Partial<User>,
   args: Omit<Prisma.UserCreateArgs, "data"> = {}
 ) {
-  const userValidation = await createUserSchema.safeParseAsync(user);
+  let userValidation: SafeParseReturnType<
+    User,
+    CredentialsUserSchema | GoogleUserSchema
+  >;
+
+  switch (user?.provider) {
+    case "credentials":
+      userValidation = await credentialsUserSchema.safeParseAsync(user);
+      break;
+    case "google":
+      userValidation = await googleUserSchema.safeParseAsync(user);
+      break;
+    default:
+      return {
+        errors: [],
+      };
+  }
+
   if (userValidation.success === true) {
     const user = await prismaClient.user.create({
       ...args,
