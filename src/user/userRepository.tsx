@@ -12,8 +12,9 @@ export type { User } from "@prisma/client";
 
 export function findById(
   id: number,
-  args: Omit<Prisma.UserFindFirstArgs, "where"> = {}
+  args: Omit<Prisma.UserFindFirstArgs, "where"> = { select: { id: true } }
 ) {
+  console.log(id)
   return prismaClient.user.findFirst({
     ...args,
     where: {
@@ -24,7 +25,7 @@ export function findById(
 
 export function findByEmail(
   email: string,
-  args: Omit<Prisma.UserFindUniqueArgs, "where"> = {}
+  args: Omit<Prisma.UserFindUniqueArgs, "where"> = { select: { id: true } }
 ) {
   return prismaClient.user.findUnique({
     ...args,

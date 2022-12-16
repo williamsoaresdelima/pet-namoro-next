@@ -44,7 +44,7 @@ const SignUpForm = ({setLoading}: {setLoading: (data: boolean) => void}) => {
             color: "#f9f9f9",
           },
         });
-        signIn("Credentials", {
+        signIn("credentials", {
           username: values.email,
           password: values.password
         })
