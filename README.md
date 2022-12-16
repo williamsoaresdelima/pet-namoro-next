@@ -10,6 +10,8 @@
 
 ### 🏠 [Homepage](https://williamsoaresdelima.github.io/namoro-pet/)
 Este site foi desenvolvido para atender os requisitos do módulo de desenvolvimento de Front-end com Next.JS e fornece nessa primeira versão um site em Next.JS e leitura de dados a partir do Prisma.
+É possivel ver a versão em deploy 
+<a href="https://reliable-sable-d6ab22.netlify.app">aqui</a>.
 
 <br/>
 
@@ -30,9 +32,8 @@ npm install
 ## Run app
 
 ```sh
-npx prisma generate
-npm run build
-npm run start
+npx prisma db push
+npm run dev
 ```
 
 <h3 align="left">Languages ​​and tools used in the project:</h3>
