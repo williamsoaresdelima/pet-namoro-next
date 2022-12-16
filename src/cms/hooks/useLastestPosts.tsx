@@ -7,6 +7,5 @@ export function useLatestPosts() {
   const { data, loading } = useQuery(queryLatestPosts);
   const results = decodePosts(data);
   const posts = mapPostsToFeedItems(results.posts);
-  console.log(posts)
   return { posts, loading };
 }

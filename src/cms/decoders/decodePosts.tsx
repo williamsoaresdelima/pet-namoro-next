@@ -14,4 +14,4 @@ export function decodePosts(data: any): PostsData {
     posts,
     pagination,
   };
-}
+};

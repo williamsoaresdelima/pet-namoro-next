@@ -18,7 +18,7 @@ function SearchBar( ) {
         },
       });
     }
-  }, [searchInput]);
+  }, [searchInput, searchPosts]);
 
   return (
     <>

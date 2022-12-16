@@ -31,7 +31,7 @@ export default function Home({ posts, pagination, userInfo }: HomeProps) {
   );
 };
 
-export const getStaticProps: GetStaticProps<any> = async () => {
+export const getStaticProps: GetStaticProps<HomeProps> = async () => {
   const { posts, pagination } = await getFeedProps();
   const userInfo = await getUserInfoProps(pagination.total);
   return {
@@ -60,10 +60,11 @@ async function getFeedProps(): Promise<{
 
   const results = await getPostPage(1);
   const posts = results.posts.map(
-    ({ title, slug, image: url }: any) => ({
-      feedImageURL: url,
-      feedLink: `/posts/${slug}`,
-      feedTitle: title,
+    ({ title, slug, image: url }:
+      {title: string, slug: string, image: string}) => ({
+        feedImageURL: url,
+        feedLink: `/posts/${slug}`,
+        feedTitle: title,
     })
   );
 

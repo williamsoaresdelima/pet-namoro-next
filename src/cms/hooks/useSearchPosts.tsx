@@ -9,7 +9,7 @@ type QueryVariables = {
 };
 
 export function useSearchPosts() {
-  const [rawSearchPosts, { data, loading }] = useLazyQuery<any, QueryVariables>(
+  const [rawSearchPosts, { data, loading }] = useLazyQuery<QueryVariables, QueryVariables>(
     querySearchPosts
   );
   const searchPosts = useCallback(debounce(rawSearchPosts, 1000), []);

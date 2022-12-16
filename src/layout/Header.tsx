@@ -6,7 +6,6 @@ import ToolBar from '../components/ToolBar/ToolBar';
 
 function Header() {
   function returnValue(value: string) {
-    console.log(value);
   };
   return (
     <>
