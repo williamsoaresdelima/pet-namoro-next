@@ -32,5 +32,6 @@ export default css.global`
 
   a {
     text-decoration: none;
+    color: var(--W12)
   }
 `;

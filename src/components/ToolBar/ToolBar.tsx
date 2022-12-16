@@ -9,7 +9,7 @@ import Avatar from '../Avatar/Avatar'
 import IToolBar from './IToolBar'
 import { ToolContainer } from './style'
 
-function ToolBar({callBackFunction, isMobile = false}: IToolBar) {
+function ToolBar({isMobile = false}: IToolBar) {
   const { status } = useSession();
   return (
     <>
@@ -23,7 +23,7 @@ function ToolBar({callBackFunction, isMobile = false}: IToolBar) {
               </div>
             </Link>
             {status === "authenticated"
-              ? <Link href={"/"}>
+              ? <Link href={"/signup"}>
                   <MdLogout size="16px" onClick={() => signOut()}/>
                 </Link>
               : <Link href={"/api/auth/signin"}>
@@ -43,7 +43,7 @@ function ToolBar({callBackFunction, isMobile = false}: IToolBar) {
               </div>
             </Link>
             {status === "authenticated"
-              ? <Link href={"/"}>
+              ? <Link href={"/signup"}>
                   <MdLogout size="30px" onClick={() => signOut()}/>
                 </Link>
               : <Link href={"/api/auth/signin"}>

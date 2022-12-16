@@ -5,7 +5,6 @@ import IPost from './IPost'
 import { Styles } from './style'
 
 function Post({data} : {data : IPost}) {
-  // const image = data.image.childImageSharp.gatsbyImageData;
   const date = new Date(data.date).toLocaleDateString('pt-BR').replaceAll('/', '-')
 
   return (

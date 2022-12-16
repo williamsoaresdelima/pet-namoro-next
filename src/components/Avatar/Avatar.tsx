@@ -1,13 +1,24 @@
+import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 import React from 'react'
-
 import IAvatar from "./IAvatar"
 
+let link = '/signup'
+
 function Avatar({size = '24px', src}: IAvatar) {
-  
+  const { status } = useSession();
+  React.useEffect(() => {
+    console.log(status)
+    if (status === "authenticated" ) {
+      link = '/profile'
+    }
+  }, [status])
   return (
     <>
+    <Link href={link} >
       <div className='img-container'>
         <img src={src} alt="foto de perfil"/>
+      </div>
       <style jsx>{`
         .img-container {
             width: auto;
@@ -27,7 +38,7 @@ function Avatar({size = '24px', src}: IAvatar) {
           }
         }
       `}</style>
-      </div>
+    </Link>
     </>
   )
 }
